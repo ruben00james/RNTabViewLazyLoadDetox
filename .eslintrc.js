@@ -7,4 +7,7 @@ module.exports = {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
   },
+  env: {
+    'jest/globals': true,
+  },
 };

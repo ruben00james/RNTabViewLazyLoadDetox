@@ -1,0 +1,25 @@
+{
+  "testRunner": "jest",
+  "runnerConfig": "e2e/config.json",
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 13"
+      }
+    }
+  },
+  "apps": {
+    "ios": {
+      "type": "ios.app",
+      "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/RNTabViewLazyLoadDetox.app",
+      "build": "xcodebuild -workspace ios/RNTabViewLazyLoadDetox.xcworkspace -scheme RNTabViewLazyLoadDetox -sdk iphonesimulator -derivedDataPath ios/build"
+    }
+  },
+  "configurations": {
+    "ios.sim": {
+      "device": "simulator",
+      "app": "ios"
+    }
+  }
+}
