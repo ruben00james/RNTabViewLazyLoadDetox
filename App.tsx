@@ -21,50 +21,88 @@ const App = () => {
   const [routes] = useState([
     {key: 'first', title: 'First'},
     {key: 'second', title: 'Second'},
+    {key: 'third', title: 'Third'},
   ]);
-  const [data, setData] = useState([
-    {key: 1, name: 'const abc item'},
-    {key: 2, name: 'const def item'},
-  ]);
+  const [dataFirst, setDataFirst] = useState([]);
+  const [dataSecond, setDataSecond] = useState([]);
+  const [dataThird, setDataThird] = useState([]);
+  // const [data, setData] = useState([
+  //   {
+  //     email: 'janjanssen@test.com',
+  //     name: [
+  //       {
+  //         first: 'Jan',
+  //         last: 'Janssen',
+  //       },
+  //     ],
+  //   },
+  // ]);
 
   useEffect(() => {
-    getRemoteUsers();
+    getRemoteUsers(1);
+    getRemoteUsers(2);
+    getRemoteUsers(3);
   }, []);
 
-  const getRemoteUsers = () => {
+  const getRemoteUsers = (listNumber: number) => {
     const url = 'https://randomuser.me/api/?results=100';
     fetch(url)
       .then(res => res.json())
       .then(res => {
-        setData(res.results);
+        switch (listNumber) {
+          case 1:
+            setDataFirst(res.results);
+            break;
+          case 2:
+            setDataSecond(res.results);
+            break;
+          case 3:
+            setDataThird(res.results);
+            break;
+        }
       })
       .catch(error => {
-        console.log('get data error from: ' + url + ' error:' + error);
+        console.log(`get data error from: ${url} error:${error}`);
       });
   };
 
-  const UserItem = ({fullname, email}) => (
-    <>
-      <Text>{fullname}</Text>
-      <Text>{email}</Text>
-    </>
-  );
-
   const FirstRoute = () => (
     <View style={[styles.scene, {backgroundColor: '#ff4081'}]}>
-      <Text>Item 1</Text>
+      <FlatList
+        data={dataFirst}
+        renderItem={({item}) => renderNativeItem(item)}
+        keyExtractor={item => item.email}
+      />
     </View>
   );
 
   const SecondRoute = () => (
     <View style={[styles.scene, {backgroundColor: '#673ab7'}]}>
-      <FlatList data={data} renderItem={({item}) => renderNativeItem(item)} />
+      <FlatList
+        data={dataSecond}
+        renderItem={({item}) => renderNativeItem(item)}
+        keyExtractor={item => item.email}
+      />
+    </View>
+  );
+
+  const ThirdRoute = () => (
+    <View style={[styles.scene, {backgroundColor: '#673ab7'}]}>
+      <FlatList
+        data={dataThird}
+        renderItem={({item}) => renderNativeItem(item)}
+        keyExtractor={item => item.email}
+      />
     </View>
   );
 
   const renderNativeItem = item => {
     const name = item.name.first + ' ' + item.name.last;
-    return <UserItem fullname={name} email={item.email} />;
+    return (
+      <Text style={styles.item}>
+        {name} - {item.email}
+      </Text>
+    );
   };
 
   const LazyPlaceholder = ({route}) => (
@@ -84,6 +122,7 @@ const App = () => {
       renderScene={SceneMap({
         first: FirstRoute,
         second: SecondRoute,
+        third: ThirdRoute,
       })}
       renderLazyPlaceholder={renderLazyPlaceholder}
       onIndexChange={handleIndexChange}
@@ -102,11 +141,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // item: {
-  //   padding: 20,
-  //   marginVertical: 8,
-  //   marginHorizontal: 16,
-  // },
+  item: {
+    padding: 5,
+    marginVertical: 2,
+    marginHorizontal: 4,
+  },
 });
 
 export default App;
