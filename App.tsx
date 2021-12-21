@@ -85,6 +85,7 @@ export default class TabViewExample extends React.Component {
   render() {
     return (
       <TabView
+        lazy
         navigationState={this.state}
         renderScene={SceneMap({
           first: this.FirstRoute,
