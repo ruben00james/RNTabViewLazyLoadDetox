@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
-import { ListItem, SearchBar } from 'react-native-elements';
+import React, {Component} from 'react';
+import {View, FlatList, ActivityIndicator} from 'react-native';
+import {ListItem, SearchBar} from 'react-native-elements';
 
 class FlatListDemo extends Component {
   private arrayholder: any[];
+
   constructor(props) {
     super(props);
 
@@ -21,7 +22,7 @@ class FlatListDemo extends Component {
   }
 
   makeRemoteRequest = () => {
-    const url = `https://randomuser.me/api/?&results=20`;
+    const url = 'https://randomuser.me/api/?&results=20';
     this.setState({loading: true});
 
     fetch(url)
